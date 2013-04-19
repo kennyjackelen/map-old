@@ -1,15 +1,17 @@
 var map;
 var markers = [];
+var paths = [];
+var gm = google.maps;
 
 function initialize() {
 	
 	var myOptions = {
 		zoom: 4,
-		center: new google.maps.LatLng(39, -92),
-		mapTypeId: google.maps.MapTypeId.ROADMAP
+		center: new gm.LatLng(39, -92),
+		mapTypeId: gm.MapTypeId.ROADMAP
 	};
 
-	map = new google.maps.Map(document.getElementById("map_canvas"),
+	map = new gm.Map(document.getElementById("map_canvas"),
 		myOptions);
 		
 	placeMarkers();
@@ -59,15 +61,15 @@ function placeMarkers(){
 		{ town:"St. Louis, MO", lat:38.63, lng:-90.2 },
 		{ town:"San Francisco, CA", lat:37.7793, lng:-122.4192 },
 		{ town:"Lake Buena Vista, FL", lat:28.418611, lng:-81.581111 },
-		{ towm:"College Station, TX", lat:30.601389, lng:-96.314444 },
-		{ towm:"Dallas, TX", lat:32.775833, lng:-96.796667 },
-		{ towm:"Honolulu, HI", lat:21.308889, lng:-157.826111 }
+		{ town:"College Station, TX", lat:30.601389, lng:-96.314444 },
+		{ town:"Dallas, TX", lat:32.775833, lng:-96.796667 },
+		{ town:"Honolulu, HI", lat:21.308889, lng:-157.826111 }
 	];
 	
 	for(var city in cities)
 	{
-		var marker = new google.maps.Marker({
-			position: new google.maps.LatLng(cities[city].lat, cities[city].lng),
+		var marker = new gm.Marker({
+			position: new gm.LatLng(cities[city].lat, cities[city].lng),
 			title: cities[city].town
 		});
 		markers.push(marker);
@@ -88,6 +90,38 @@ function hideMarkers(){
 	if (markers) {
 		for (i in markers) {
 			markers[i].setMap(null);
+		}
+	}
+}
+
+function drawPath(originIATA, destinationIATA){
+	var coordinates = [
+		iata[originIATA],
+		iata[destinationIATA]
+	];
+	var flightPath = new gm.Polyline({
+		path: coordinates,
+		strokeColor: "#FF0000",
+		strokeOpacity: 1.0,
+		strokeWeight: 2
+	});
+	paths.push(flightPath);
+}
+
+function showPaths(){
+	var i;
+	if (paths) {
+		for (i in paths) {
+			paths[i].setMap(map);
+		}
+	}
+}
+
+function hidePaths(){
+	var i;
+	if (paths) {
+		for (i in paths) {
+			paths[i].setMap(null);
 		}
 	}
 }
