@@ -1,20 +1,21 @@
 var map;
-  
+var markers = [];
+
 function initialize() {
 	
 	var myOptions = {
-	  zoom: 4,
-	  center: new google.maps.LatLng(39, -92),
-	  mapTypeId: google.maps.MapTypeId.ROADMAP
+		zoom: 4,
+		center: new google.maps.LatLng(39, -92),
+		mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 
 	map = new google.maps.Map(document.getElementById("map_canvas"),
 		myOptions);
 		
 	placeMarkers();
-	
+	showMarkers();
 }
-  
+
 function placeMarkers(){
 	
 	var cities = new Array();
@@ -47,25 +48,46 @@ function placeMarkers(){
 		{ town:"Kansas City, MO", lat:39.10, lng:-94.58 },
 		{ town:"Luverne, MN", lat:43.65, lng:-96.2 },
 		{ town:"San Juan, PR", lat:18.45, lng:-66.067 },
-    { town:"Omaha, NE", lat:41.25, lng:-96.0 },
-    { town:"Annapolis, MD", lat:38.967, lng:-76.5 },
-    { town:"Denver, CO", lat:39.739, lng:-104.984 },
-    { town:"Portland, OR", lat:45.52, lng:-122.682 },
-    { town:"New Haven, CT", lat:41.31, lng:-72.923611 },
-    { town:"Richland, WA", lat:46.279722, lng:-119.281389 },
-    { town:"Brainerd, MN", lat:46.358056, lng:-94.200833 },
-    { town:"St. Cloud, MN", lat:45.553889, lng:-94.170278 },
-    { town:"St. Louis, MO", lat:38.63, lng:-90.2 },
-    { town:"San Francisco, CA", lat:37.7793, lng:-122.4192 },
-    { town:"Lake Buena Vista, FL", lat:28.418611, lng:-81.581111 }
+		{ town:"Omaha, NE", lat:41.25, lng:-96.0 },
+		{ town:"Annapolis, MD", lat:38.967, lng:-76.5 },
+		{ town:"Denver, CO", lat:39.739, lng:-104.984 },
+		{ town:"Portland, OR", lat:45.52, lng:-122.682 },
+		{ town:"New Haven, CT", lat:41.31, lng:-72.923611 },
+		{ town:"Richland, WA", lat:46.279722, lng:-119.281389 },
+		{ town:"Brainerd, MN", lat:46.358056, lng:-94.200833 },
+		{ town:"St. Cloud, MN", lat:45.553889, lng:-94.170278 },
+		{ town:"St. Louis, MO", lat:38.63, lng:-90.2 },
+		{ town:"San Francisco, CA", lat:37.7793, lng:-122.4192 },
+		{ town:"Lake Buena Vista, FL", lat:28.418611, lng:-81.581111 },
+		{ towm:"College Station, TX", lat:30.601389, lng:-96.314444 },
+		{ towm:"Dallas, TX", lat:32.775833, lng:-96.796667 },
+		{ towm:"Honolulu, HI", lat:21.308889, lng:-157.826111 }
 	];
 	
 	for(var city in cities)
 	{
 		var marker = new google.maps.Marker({
-			map: map, 
 			position: new google.maps.LatLng(cities[city].lat, cities[city].lng),
 			title: cities[city].town
 		});
+		markers.push(marker);
+	}
+}
+
+function showMarkers(){
+	var i;
+	if (markers) {
+		for (i in markers) {
+			markers[i].setMap(map);
+		}
+	}
+}
+
+function hideMarkers(){
+	var i;
+	if (markers) {
+		for (i in markers) {
+			markers[i].setMap(null);
+		}
 	}
 }
